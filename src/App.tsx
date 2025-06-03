@@ -13,12 +13,12 @@ function App() {
 
   const res = paragraphs.filter(paragraph =>
     !words.some(word =>
-      paragraph.toLowerCase().startsWith(word.toLowerCase())))
+      paragraphMatch(paragraph, word)))
     .join('\n\n')
 
   const wordsParagraphs = words.map(word => {
     const wordParagraphs = paragraphs.filter(paragraph =>
-      paragraph.toLowerCase().startsWith(word.toLowerCase()))
+      paragraphMatch(paragraph, word))
 
     return {
       word,
@@ -83,3 +83,8 @@ function App() {
 }
 
 export default App
+
+const paragraphMatch = (paragraph: string, word: string) =>
+  paragraph.toLowerCase().startsWith(word.toLowerCase() + ' ')
+  || paragraph.toLowerCase().startsWith(word.toLowerCase() + '\n')
+  || paragraph === word

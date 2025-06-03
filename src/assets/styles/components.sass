@@ -1,4 +1,6 @@
-$button-height: 20px
+@import './vars.sass'
+
+  
 .Button
   cursor: pointer
   display: block
@@ -21,10 +23,10 @@ $button-height: 20px
     @media (hover: hover) and (pointer: fine)
       background-color: gray
   &--black
-    color: white
-    background-color: black
+    color: $background
+    background-color: $text
   &--transparent
-    color: white
+    color: $background
     background-color: rgba(0, 0, 0, 0)
   &--medium
     font-size: 30px
@@ -50,8 +52,8 @@ $button-height: 20px
       right: 0
       width: 10px
       height: 10px
-      border-right: 1px solid black
-      border-bottom: 1px solid black
+      border-right: 1px solid $text
+      border-bottom: 1px solid $text
       transition: transform .15s
       transform: translate(-50%) rotate(45deg)
       .Dropdown--opened &
@@ -61,3 +63,7 @@ $button-height: 20px
     overflow: hidden
     &__wrapper
       padding: 10px 0 10px 0
+
+
+textarea
+  background-color: $background

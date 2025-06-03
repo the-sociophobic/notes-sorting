@@ -58,7 +58,8 @@ const Input: React.FC<InputProps> = ({
         minHeight: minHeight ? `${minHeight}px` : '200px',
         height: 'auto',
         overflow: 'auto',
-        fontSize: '14px'
+        fontSize: '14px',
+        padding: '0 10px'
       }}
     />
     {children &&

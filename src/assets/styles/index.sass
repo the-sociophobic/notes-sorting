@@ -1,20 +1,22 @@
+@import './vars.sass'
 @import './components.sass'
 
 @import '~bootstrap/scss/bootstrap.scss'
+
 
 #root
   min-height: 100vh
 
 *
   font-display: auto
-  color: black
+  color: $text
   margin: 0
   padding: 0
   box-sizing: border-box
   -webkit-font-smoothing: antialiased
 
 body
-  background-color: white
+  background-color: $background
   .App
     width: 100vw
     height: 100vh
@@ -22,7 +24,7 @@ body
     @extend .d-flex
     @extend .flex-column
     .Header
-      background-color: white
+      background-color: $background
 
 
     .Footer
