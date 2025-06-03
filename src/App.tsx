@@ -10,9 +10,12 @@ function App() {
   const [wordsText, setWordsText] = useState('')
   const paragraphs = text.split('\n\n')
   const words = wordsText.split(',').filter(word => word.length > 0)
+
   const res = paragraphs.filter(paragraph =>
     !words.some(word =>
       paragraph.toLowerCase().startsWith(word.toLowerCase())))
+    .join('\n\n')
+
   const wordsParagraphs = words.map(word => {
     const wordParagraphs = paragraphs.filter(paragraph =>
       paragraph.toLowerCase().startsWith(word.toLowerCase()))
@@ -42,6 +45,7 @@ function App() {
         value={wordsText}
         onChange={setWordsText}
         className={'mb-4'}
+        minHeight={70}
       />
 
       <h3 className='h3'>
@@ -49,12 +53,18 @@ function App() {
       </h3>
       {(text.length > 0 && wordsText.length > 0 && wordsParagraphs.length > 0) ? (
         <>
-          <Text
-            header='Почищенный текст'
-            copy
-            value={res.join('\n\n')}
-            className={'mb-4'}
-          />
+          {res.length > 0 ?
+            <Text
+              header='Почищенный текст'
+              copy
+              value={res}
+              className={'mb-4'}
+            />
+            :
+            <div className='my-3'>
+              В конечном тексте не осталось параграфов
+            </div>
+          }
           {wordsParagraphs.map(({ word, paragraph }) =>
             <Text
               header={`Слово «${word}»`}

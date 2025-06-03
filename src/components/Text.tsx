@@ -13,6 +13,7 @@ export type TextProps = {
   opened?: boolean
   copy?: boolean
   className?: string
+  minHeight?: number
 }
 
 
@@ -22,7 +23,8 @@ const Text: FC<TextProps> = ({
   onChange,
   opened,
   copy,
-  className
+  className,
+  minHeight
 }) => {
   return (
     <div className={`d-flex flex-row ${className}`}>
@@ -35,6 +37,7 @@ const Text: FC<TextProps> = ({
             value={value}
             onChange={onChange}
             className='w-100'
+            minHeight={minHeight}
           />
         </Dropdown>
       </div>

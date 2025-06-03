@@ -15,6 +15,7 @@ type InputProps = {
   min?: number
   max?: number | string | undefined
   _ref?: React.RefObject<HTMLInputElement>
+  minHeight?: number
 }
 
 
@@ -31,6 +32,7 @@ const Input: React.FC<InputProps> = ({
   // min,
   // max,
   // _ref
+  minHeight,
 }) => (
   <div className={`Input ${className}`}>
     {label &&
@@ -53,7 +55,7 @@ const Input: React.FC<InputProps> = ({
       // max={(type === 'number' && max) || undefined}
       placeholder={placeholder}
       style={{
-        minHeight: '200px',
+        minHeight: minHeight ? `${minHeight}px` : '200px',
         height: 'auto',
         overflow: 'auto',
         fontSize: '14px'
