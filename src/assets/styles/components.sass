@@ -1,0 +1,63 @@
+$button-height: 20px
+.Button
+  cursor: pointer
+  display: block
+  outline: none
+  border: none
+  background-color: rgba(0, 0, 0, 0)
+  &--disabled
+    opacity: .5
+    cursor: not-allowed
+  padding: 0 10px
+  height: $button-height
+  line-height: $button-height
+  color: black
+  @media (hover: hover) and (pointer: fine)
+    &:hover
+      opacity: .4
+  &--gray
+    background-color: gray
+  &--hoverable:hover
+    @media (hover: hover) and (pointer: fine)
+      background-color: gray
+  &--black
+    color: white
+    background-color: black
+  &--transparent
+    color: white
+    background-color: rgba(0, 0, 0, 0)
+  &--medium
+    font-size: 30px
+    padding: 0 15px
+    height: $button-height * 2
+    line-height: $button-height * 2
+    
+.Dropdown
+  border-top: 1px solid gray
+  border-bottom: 1px solid gray
+  margin-right: 10px
+  &--opened
+  &__header
+    cursor: pointer
+    font-size: 14px
+    font-weight: bold
+    padding: 10px 0 10px 0
+    position: relative
+    &::after
+      position: absolute
+      content: ''
+      top: 30%
+      right: 0
+      width: 10px
+      height: 10px
+      border-right: 1px solid black
+      border-bottom: 1px solid black
+      transition: transform .15s
+      transform: translate(-50%) rotate(45deg)
+      .Dropdown--opened &
+        transform: translate(-50%) rotate(-135deg)
+  &__body
+    transition: height .25s
+    overflow: hidden
+    &__wrapper
+      padding: 10px 0 10px 0
