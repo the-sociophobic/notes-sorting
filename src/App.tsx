@@ -3,9 +3,14 @@ import { useState } from 'react'
 import Text from './components/Text'
 
 import './assets/styles/index.sass'
+import Button from './components/Button'
+
+
+export type SearchType = 'first' | 'second'
 
 
 function App() {
+  const [searchType, setSearchType] = useState<SearchType>('first')
   const [text, setText] = useState('')
   const [wordsText, setWordsText] = useState('')
   const paragraphs = text.split('\n\n')
@@ -13,12 +18,12 @@ function App() {
 
   const res = paragraphs.filter(paragraph =>
     !words.some(word =>
-      paragraphMatch(paragraph, word)))
+      paragraphMatch(paragraph, word, searchType)))
     .join('\n\n')
 
   const wordsParagraphs = words.map(word => {
     const wordParagraphs = paragraphs.filter(paragraph =>
-      paragraphMatch(paragraph, word))
+      paragraphMatch(paragraph, word, searchType))
 
     return {
       word,
@@ -32,6 +37,20 @@ function App() {
       <h3 className='h3'>
         Вход
       </h3>
+      <div className='d-flex flex-row'>
+        <Button
+          black={searchType === 'first'}
+          onClick={() => setSearchType('first')}
+        >
+          Первая строка
+        </Button>
+        <Button
+          black={searchType === 'second'}
+          onClick={() => setSearchType('second')}
+        >
+          Вторая строка
+        </Button>
+      </div>
       <Text
         header='Исходный текст'
         opened
@@ -84,7 +103,26 @@ function App() {
 
 export default App
 
-const paragraphMatch = (paragraph: string, word: string) =>
-  paragraph.toLowerCase().startsWith(word.toLowerCase() + ' ')
-  || paragraph.toLowerCase().startsWith(word.toLowerCase() + '\n')
-  || paragraph === word
+
+const lineMatch = (line: string, word: string) =>
+  line.toLowerCase().startsWith(word.toLowerCase() + ' ')
+  || line.toLowerCase().startsWith(word.toLowerCase() + '\n')
+  || line === word
+
+const paragraphMatch = (
+  paragraph: string,
+  word: string,
+  searchType: SearchType
+) => {
+  const lines = paragraph.split('\n')
+
+  if (searchType === 'first') {
+    return lineMatch(lines[0], word)
+  }
+
+  if (searchType === 'second' && lines[1]) {
+    return lineMatch(lines[1], word)
+  }
+
+  return false
+}
