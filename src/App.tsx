@@ -13,7 +13,10 @@ function App() {
   const [searchType, setSearchType] = useState<SearchType>('first')
   const [text, setText] = useState('')
   const [wordsText, setWordsText] = useState('')
-  const paragraphs = text.split('\n\n')
+  const paragraphs = text
+    .split(/(\r?\n){2,}/g)
+    .filter(paragraph => paragraph.length > 0 && paragraph !== '\n')
+  console.log(paragraphs)
   const words = wordsText.split(',').filter(word => word.length > 0)
 
   const res = paragraphs.filter(paragraph =>
