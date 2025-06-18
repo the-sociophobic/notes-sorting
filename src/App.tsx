@@ -3,7 +3,6 @@ import { useState } from 'react'
 import Text from './components/Text'
 
 import './assets/styles/index.sass'
-import Button from './components/Button'
 import Input from './components/Input'
 
 
