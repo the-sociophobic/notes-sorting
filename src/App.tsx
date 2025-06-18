@@ -4,13 +4,11 @@ import Text from './components/Text'
 
 import './assets/styles/index.sass'
 import Button from './components/Button'
-
-
-export type SearchType = 'first' | 'second'
+import Input from './components/Input'
 
 
 function App() {
-  const [searchType, setSearchType] = useState<SearchType>('first')
+  const [lineIndex, setLineIndex] = useState(1)
   const [text, setText] = useState('')
   const [wordsText, setWordsText] = useState('')
   const paragraphs = text
@@ -21,12 +19,12 @@ function App() {
 
   const res = paragraphs.filter(paragraph =>
     !words.some(word =>
-      paragraphMatch(paragraph, word, searchType)))
+      paragraphMatch(paragraph, word, lineIndex)))
     .join('\n\n')
 
   const wordsParagraphs = words.map(word => {
     const wordParagraphs = paragraphs.filter(paragraph =>
-      paragraphMatch(paragraph, word, searchType))
+      paragraphMatch(paragraph, word, lineIndex))
 
     return {
       word,
@@ -41,18 +39,12 @@ function App() {
         Вход
       </h3>
       <div className='d-flex flex-row'>
-        <Button
-          black={searchType === 'first'}
-          onClick={() => setSearchType('first')}
-        >
-          Первая строка
-        </Button>
-        <Button
-          black={searchType === 'second'}
-          onClick={() => setSearchType('second')}
-        >
-          Вторая строка
-        </Button>
+        <Input
+          type='number'
+          value={lineIndex}
+          onChange={setLineIndex}
+          label='номер строки'
+        />
       </div>
       <Text
         header='Исходный текст'
@@ -115,17 +107,13 @@ const lineMatch = (line: string, word: string) =>
 const paragraphMatch = (
   paragraph: string,
   word: string,
-  searchType: SearchType
+  lineIndex: number
 ) => {
   const lines = paragraph.split('\n')
+  const line = lines[lineIndex - 1]
 
-  if (searchType === 'first') {
-    return lineMatch(lines[0], word)
-  }
+  if (!line)
+    return false
 
-  if (searchType === 'second' && lines[1]) {
-    return lineMatch(lines[1], word)
-  }
-
-  return false
+  return lineMatch(line, word)
 }

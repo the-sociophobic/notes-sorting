@@ -22,7 +22,7 @@ type InputProps = {
 const Input: React.FC<InputProps> = ({
   value,
   onChange,
-  // type,
+  type,
   label,
   placeholder,
   className,
@@ -40,28 +40,44 @@ const Input: React.FC<InputProps> = ({
         {label}
       </div>
     }
-    <textarea
-      // ref={_ref}
-      // type={type}
-      className={`Input__input w-100 ${
-        isSuccess && 'text-success form-control bg-transparent is-valid'
-      }`}
-      value={value}
-      onBlur={onBlur}
-      autoComplete='off'
-      autoCorrect='off'
-      onChange={(e) => onChange?.(e.target.value)}
-      // min={type === 'number' ? min || '0' : undefined}
-      // max={(type === 'number' && max) || undefined}
-      placeholder={placeholder}
-      style={{
-        minHeight: minHeight ? `${minHeight}px` : '200px',
-        height: 'auto',
-        overflow: 'auto',
-        fontSize: '14px',
-        padding: '0 10px'
-      }}
-    />
+    {type === 'number' ?
+      <input
+        className={`Input__input w-100 ${
+          isSuccess && 'text-success form-control bg-transparent is-valid'
+        }`}
+        value={value}
+        onBlur={onBlur}
+        autoComplete='off'
+        autoCorrect='off'
+        onChange={(e) => onChange?.(e.target.value)}
+        // min={type === 'number' ? min || '0' : undefined}
+        // max={(type === 'number' && max) || undefined}
+        placeholder={placeholder}
+      />
+      :
+      <textarea
+        // ref={_ref}
+        // type={type}
+        className={`Input__input w-100 ${
+          isSuccess && 'text-success form-control bg-transparent is-valid'
+        }`}
+        value={value}
+        onBlur={onBlur}
+        autoComplete='off'
+        autoCorrect='off'
+        onChange={(e) => onChange?.(e.target.value)}
+        // min={type === 'number' ? min || '0' : undefined}
+        // max={(type === 'number' && max) || undefined}
+        placeholder={placeholder}
+        style={{
+          minHeight: minHeight ? `${minHeight}px` : '200px',
+          height: 'auto',
+          overflow: 'auto',
+          fontSize: '14px',
+          padding: '0 10px'
+        }}
+      />
+    }
     {children &&
       <div className='Input__children'>
         {children}
