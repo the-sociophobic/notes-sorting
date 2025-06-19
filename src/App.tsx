@@ -98,11 +98,19 @@ function App() {
 export default App
 
 
-const lineMatch = (line: string, word: string) =>
-  line.toLowerCase().startsWith(word.toLowerCase() + ' ')
-  || line.toLowerCase().startsWith(word.toLowerCase() + '\n')
-  || line === word
+const lineMatch = (line: string, word: string) => {
+  const wordModified = word.toLowerCase().replace('с', 'c')
+  let lineModified = line.toLowerCase().replace('с', 'c')
 
+  while (lineModified.startsWith(' ')) {
+    lineModified = lineModified.slice(1)
+  }
+
+  return lineModified.startsWith(wordModified + ' ')
+  || lineModified.startsWith(wordModified + '\n')
+  || lineModified === wordModified
+}
+  
 const paragraphMatch = (
   paragraph: string,
   word: string,
