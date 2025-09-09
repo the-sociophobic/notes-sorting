@@ -4,6 +4,8 @@ import Text from './components/Text'
 
 import './assets/styles/index.sass'
 import Input from './components/Input'
+import Button from './components/Button'
+import copyToClipboard from './utils/copyToClipboard'
 
 
 function App() {
@@ -12,7 +14,12 @@ function App() {
   const [wordsText, setWordsText] = useState('')
   const paragraphs = text
     .split(/(\r?\n){2,}/g)
-    .filter(paragraph => paragraph.length > 0 && paragraph !== '\n')
+    .map(paragraph => removeEmptyFirstLines(paragraph))
+    .filter(paragraph =>
+      paragraph.length > 0
+      && paragraph !== '\n'
+      // && !paragraphFirstLineIsEmpty(paragraph)
+    )
   console.log(paragraphs)
   const words = wordsText.split(',').filter(word => word.length > 0)
 
@@ -78,6 +85,15 @@ function App() {
               В конечном тексте не осталось параграфов
             </div>
           }
+          <Button
+            black
+            className='mb-4'
+            onClick={() => {
+              copyToClipboard(wordsParagraphs.map(({ paragraph }) => paragraph).join('\n\n\n\n'))
+            }}
+          >
+            Скопировать все окна
+          </Button>
           {wordsParagraphs.map(({ word, paragraph }) =>
             <Text
               header={`Слово «${word}»`}
@@ -107,10 +123,10 @@ const lineMatch = (line: string, word: string) => {
   }
 
   return lineModified.startsWith(wordModified + ' ')
-  || lineModified.startsWith(wordModified + '\n')
-  || lineModified === wordModified
+    || lineModified.startsWith(wordModified + '\n')
+    || lineModified === wordModified
 }
-  
+
 const paragraphMatch = (
   paragraph: string,
   word: string,
@@ -123,4 +139,22 @@ const paragraphMatch = (
     return false
 
   return lineMatch(line, word)
+}
+
+const paragraphFirstLineIsEmpty = (paragraph: string) => {
+  const lines = paragraph.split('\n')
+  const firstLine = lines[0] || ''
+  const firstLineClean = firstLine.replace(/ /g, '').replace(/\n/g, '')
+  const firstLineIsEmpty = firstLineClean.length === 0
+
+  return firstLineIsEmpty
+}
+
+const removeEmptyFirstLines = (paragraph: string) => {
+  let modifiedParagraph = paragraph.slice()
+
+  while (modifiedParagraph.length > 0 && paragraphFirstLineIsEmpty(modifiedParagraph))
+    modifiedParagraph = modifiedParagraph.slice(1)
+
+  return modifiedParagraph
 }
